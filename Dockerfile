@@ -17,9 +17,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Python dependencies
+# Install Python dependencies (with CPU torch extra-index for faster builds and low memory footprint)
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --extra-index-url https://download.pytorch.org/whl/cpu -r requirements.txt
 
 # Copy application source code and models
 COPY config/ config/
@@ -32,9 +32,9 @@ COPY run.py .
 # Expose server port
 EXPOSE 8000
 
-# Health check
+# Health check compatible with any dynamic PORT assigned by cloud provider
 HEALTHCHECK --interval=30s --timeout=10s --start-period=15s --retries=3 \
-    CMD curl -f http://localhost:8000/health || exit 1
+    CMD sh -c 'curl -f http://127.0.0.1:${PORT:-8000}/health || exit 1'
 
 # Launch application
 CMD ["python", "run.py"]

@@ -1,3 +1,13 @@
+---
+title: SIH 2026 Civic Intelligence AI
+emoji: 🏛️
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+app_port: 8000
+pinned: false
+---
+
 # Report Structuring & Classification AI (SIH 2026)
 
 > **First-Stage Intelligence Engine for Civic Problem Ingestion & Multi-Modal Triage**  

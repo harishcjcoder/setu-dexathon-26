@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: sih2026-civic-ai
+    runtime: docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: PORT
+        value: 8000
+      - key: HOST
+        value: 0.0.0.0
+      - key: HEADLESS
+        value: "1"
+      - key: OFFLINE_MODE
+        value: "true"
+    healthCheckPath: /health

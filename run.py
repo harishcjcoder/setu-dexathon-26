@@ -43,12 +43,13 @@ def open_browser(url: str, delay: float = 1.5):
 
 
 def main():
-    host = os.environ.get("HOST", "127.0.0.1")
     env_port = os.environ.get("PORT")
+    default_host = "0.0.0.0" if env_port else "127.0.0.1"
+    host = os.environ.get("HOST", default_host)
     port = int(env_port) if env_port else find_free_port()
     display_host = "localhost" if host == "0.0.0.0" else host
     url = f"http://{display_host}:{port}"
-    headless = os.environ.get("HEADLESS", "0").lower() in ("1", "true", "yes")
+    headless = os.environ.get("HEADLESS", "0").lower() in ("1", "true", "yes") or bool(env_port)
 
     print("=" * 75)
     print("  🚀 SIH 2026: Model 1 — Report Structuring & Classification AI")
