@@ -3,8 +3,8 @@ FastAPI Service for Report Structuring & Classification AI (SIH 2026).
 """
 
 from pathlib import Path
-from fastapi import FastAPI
-from fastapi.responses import HTMLResponse
+from fastapi import FastAPI, HTTPException
+from fastapi.responses import HTMLResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -46,3 +46,16 @@ async def serve_ui():
         with open(index_file, "r", encoding="utf-8") as f:
             return f.read()
     return HTMLResponse("<h1>SIH 2026 Civic AI Service Running. UI under initialization...</h1>")
+
+
+@app.get("/download-zip")
+async def download_deployment_zip():
+    zip_path = BASE_DIR / "sih2026_model_deployable.zip"
+    if not zip_path.exists():
+        raise HTTPException(status_code=404, detail="Deployment zip package not found.")
+    return FileResponse(
+        path=str(zip_path),
+        filename="sih2026_model_deployable.zip",
+        media_type="application/zip"
+    )
+
