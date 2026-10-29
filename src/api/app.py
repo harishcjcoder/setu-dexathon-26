@@ -52,7 +52,10 @@ async def serve_ui():
 async def download_deployment_zip():
     zip_path = BASE_DIR / "sih2026_model_deployable.zip"
     if not zip_path.exists():
-        raise HTTPException(status_code=404, detail="Deployment zip package not found.")
+        raise HTTPException(
+            status_code=404,
+            detail="Deployment package is not hosted on serverless runtime. Please download from the official GitHub repository."
+        )
     return FileResponse(
         path=str(zip_path),
         filename="sih2026_model_deployable.zip",
